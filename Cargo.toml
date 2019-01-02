@@ -6,3 +6,11 @@ edition = "2018"
 
 [dependencies]
 sfml = "0.14.0"
+
+[lib]
+name = "engine"
+path = "src/engine/lib.rs"
+
+[[bin]]
+name = "runtime"
+path = "src/runtime/main.rs"

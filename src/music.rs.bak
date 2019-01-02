@@ -1,0 +1,97 @@
+extern crate sfml;
+
+use sfml::audio::{Music, Sound, SoundBuffer, SoundStatus};
+use sfml::system::{sleep, Time};
+use std::io::Write;
+
+fn play_sound(path: &str) {
+    let buffer = SoundBuffer::from_file(path).unwrap();
+
+    // Display sound information
+    println!("--// Sound Information //--");
+    println!("Duration: {}s", buffer.duration().as_seconds());
+    println!("Sample Rate: {} kbps", buffer.sample_rate());
+    println!("# of Channels: {}", buffer.channel_count());
+
+    let mut sound = Sound::with_buffer(&buffer);
+
+    sound.play();
+
+    while sound.status() == SoundStatus::Playing {
+        // Display the playing position
+        let playback_time_sec = sound.playing_offset().as_seconds();
+        let playback_time: (f32, f32) = (playback_time_sec / 60.0, playback_time_sec % 60.0);
+        print!("\rPlaying [ {0}:{1} ]", playback_time.0.floor(), playback_time.1.floor());
+        let _ = std::io::stdout().flush();
+        sleep(Time::milliseconds(100));
+    }
+
+    println!();
+}
+
+fn play_music(path: &str) {
+    let mut music = Music::from_file(path).unwrap();
+
+    // Display music information
+    println!("--// Music Information //--");
+    println!("Duration: {}s", music.duration().as_seconds());
+    println!("Sample Rate: {} kbps", music.sample_rate());
+    println!("# of Channels: {}", music.channel_count());
+
+    music.play();
+
+    while music.status() == SoundStatus::Playing {
+        // Display the playing position
+        let playback_time_sec = music.playing_offset().as_seconds();
+        let playback_time: (f32, f32) = (playback_time_sec / 60.0, playback_time_sec % 60.0);
+        print!("\rPlaying [ {0}:{1} ]", playback_time.0.floor(), playback_time.1.floor());
+        let _ = std::io::stdout().flush();
+        sleep(Time::milliseconds(100));
+    }
+
+    println!();
+}
+
+fn main() {
+    let args: std::env::Args = std::env::args();
+    let args_vec: Vec<String> = args.collect();
+
+    let sound_type: String;
+    let requested_sound_type: String;
+
+    if args_vec.len() > 1 {
+        requested_sound_type = args_vec[1].to_lowercase()
+    } else {
+        panic!("No arguments provided.");
+    }
+    
+    if requested_sound_type == "music" || requested_sound_type == "m" {
+        sound_type = "music".to_string();
+    } else if requested_sound_type == "fx" {
+        sound_type = "fx".to_string();
+    } else {
+        println!("Unknown sound type. Please provide the type [music|fx] as the first argument.");
+        std::process::abort();
+    }
+
+    let sound_path: String;
+
+    if args_vec.len() > 2 {
+        sound_path = args_vec[2].to_string();
+    } else {
+        panic!("No file path provided.");
+    }
+
+    if sound_path.is_empty() {
+        println!("Please provide the path to a sound file as the second argument.");
+        std::process::abort();
+    } else {
+        if sound_type == "music" {
+            play_music(&sound_path);
+        } else if sound_type == "fx" {
+            play_sound(&sound_path);
+        } else {
+            println!("UNREACHABLE. Unknown state.");
+        }
+    }
+}
