@@ -24,20 +24,24 @@ impl<'a, 'b> Scene<'a, 'b> {
         }
     }
 
-    pub fn render(&self) {
-        self.pre_frame();
-        self.on_frame();
-        self.post_frame();
+    pub fn render(&mut self) {
+        while self.window.is_open() {
+            self.pre_frame();
+            self.on_frame();
+            self.post_frame();
+        }
     }
 
-    fn pre_frame(&self) {
+    fn pre_frame(&mut self) {
+        self.window.poll_events();
+        self.window.clear(sfml::graphics::Color::BLACK);
     }
 
-    fn on_frame(&self) {
+    fn on_frame(&mut self) {
+        self.window.display();
     }
 
-    fn post_frame(&self) {
-    }
+    fn post_frame(&self) { }
 
     pub fn add_model(&mut self, model: Model<'a>) {
         self.models.push(Box::new(model))
