@@ -9,8 +9,10 @@ fn main() {
 
     let mut mushroom_tex = sfml::graphics::Texture::from_file("data/assets/sprites/mushroom.png").unwrap();
     let mut mushroom_spr = sfml::graphics::Sprite::with_texture(&mut mushroom_tex);
-    scene.add_model(Scene::make_model("mushroom", &mut mushroom_spr));
-    
+    let mushroom_mdl = Scene::make_model("mushroom", &mut mushroom_spr);
+
+    scene.add_model(mushroom_mdl);
+
     println!("Running Platformer Rust...");
     scene.render();
 }

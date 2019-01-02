@@ -6,6 +6,7 @@ use std::fmt;
 pub struct Model<'a> {
     pub name: String,
     pub model: Box<&'a mut sfml::graphics::Drawable>,
+    pub hidden: bool
 }
 
 impl<'a> fmt::Debug for Model<'a> {
@@ -25,6 +26,7 @@ impl<'a> Model<'a> {
         Model {
             name: name.to_string(),
             model: Box::new(model),
+            hidden: false
         }
     }
 
@@ -38,5 +40,21 @@ impl<'a> Model<'a> {
 
     pub fn set_model(&mut self, model: &'a mut sfml::graphics::Drawable) {
         self.model = Box::new(model)
+    }
+
+    pub fn set_hidden(&mut self, hidden: bool) {
+        self.hidden = hidden;
+    }
+
+    pub fn is_hidden(&self) -> bool {
+        self.hidden
+    }
+
+    pub fn set_visible(&mut self, visible: bool) {
+        self.set_hidden(!visible)
+    }
+
+    pub fn is_visible(&self) -> bool {
+        !self.is_hidden()
     }
 }

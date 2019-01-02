@@ -39,7 +39,9 @@ impl<'a, 'b> Scene<'a, 'b> {
         self.window.clear(sfml::graphics::Color::BLACK);
 
         for model in &mut self.models {
-            self.window.draw(model);
+            if model.is_visible() {
+                self.window.draw(model);
+            }
         }
     }
 
@@ -66,6 +68,8 @@ impl<'a, 'b> Scene<'a, 'b> {
                 Some(model);
             }
         }
+
+        println!("Could not find a model named \"{}\"", name);
         None
     }
 
