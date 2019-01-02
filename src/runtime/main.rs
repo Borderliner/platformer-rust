@@ -1,10 +1,12 @@
 extern crate sfml;
-extern crate engine;
+extern crate platformer;
 
-pub use ::sfml::graphics::RenderTarget;
+use sfml::graphics::RenderTarget;
+
 
 fn main() {
-    let mut win = engine::Window::new_with(1024, 768, "Platformer Rust");
+    platformer::engine::window::Window
+    let mut win = platformer::engine::window::Window::new_with(1024, 768, "Platformer Rust");
     while win.is_open() {
         win.poll_events();
 

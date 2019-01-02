@@ -8,8 +8,8 @@ edition = "2018"
 sfml = "0.14.0"
 
 [lib]
-name = "engine"
-path = "src/engine/lib.rs"
+name = "platformer"
+path = "src/lib.rs"
 
 [[bin]]
 name = "runtime"
