@@ -5,6 +5,8 @@ use std::boxed::Box;
 use sfml::window::{Event, Key, Style, VideoMode};
 use sfml::graphics::{RenderWindow, RenderTarget};
 
+use super::super::containers;
+
 #[derive(Debug)]
 pub struct Window {
     m_window_width: u32,
@@ -103,5 +105,9 @@ impl Window {
 
     pub fn display(&mut self) {
         self.m_window_handle.display();
+    }
+
+    pub fn draw(&mut self, model: &mut Box<containers::Model>) {
+        self.m_window_handle.draw(*model.model)
     }
 }

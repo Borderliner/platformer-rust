@@ -33,8 +33,13 @@ impl<'a, 'b> Scene<'a, 'b> {
     }
 
     fn pre_frame(&mut self) {
+        // Call draw function on all objects
         self.window.poll_events();
         self.window.clear(sfml::graphics::Color::BLACK);
+
+        for model in &mut self.models {
+            self.window.draw(model);
+        }
     }
 
     fn on_frame(&mut self) {
@@ -60,7 +65,7 @@ impl<'a, 'b> Scene<'a, 'b> {
         None
     }
 
-    pub fn make_model(&mut self, name: &str, drawable: &'a mut sfml::graphics::Drawable) -> Model {
+    pub fn make_model(name: &str, drawable: &'a mut sfml::graphics::Drawable) -> Model<'a> {
         Model::new_with(name, drawable)
     }
 }

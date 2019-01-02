@@ -4,8 +4,8 @@ use std::boxed::Box;
 use std::fmt;
 
 pub struct Model<'a> {
-    name: String,
-    model: Box<&'a mut sfml::graphics::Drawable>,
+    pub name: String,
+    pub model: Box<&'a mut sfml::graphics::Drawable>,
 }
 
 impl<'a> fmt::Debug for Model<'a> {
