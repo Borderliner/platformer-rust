@@ -29,6 +29,7 @@ impl<'a, 'b> Scene<'a, 'b> {
             self.pre_frame();
             self.on_frame();
             self.post_frame();
+            self.restart_clock();
         }
     }
 
@@ -43,7 +44,10 @@ impl<'a, 'b> Scene<'a, 'b> {
     }
 
     fn on_frame(&mut self) {
-        self.window.display();
+        if self.elapsed_time.as_seconds() > self.frame_time {
+            self.window.display();
+            self.elapsed_time -= sfml::system::Time::seconds(self.frame_time)
+        }
     }
 
     fn post_frame(&self) { }
@@ -67,5 +71,13 @@ impl<'a, 'b> Scene<'a, 'b> {
 
     pub fn make_model(name: &str, drawable: &'a mut sfml::graphics::Drawable) -> Model<'a> {
         Model::new_with(name, drawable)
+    }
+
+    fn get_elapsed_time(&self) -> sfml::system::Time {
+        self.elapsed_time
+    }
+
+    fn restart_clock(&mut self) {
+        self.elapsed_time += self.clock.restart()
     }
 }
