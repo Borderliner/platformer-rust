@@ -1,53 +1,42 @@
 extern crate sfml;
 
+use std::boxed::Box;
 use std::fmt;
-use sfml::system::Vector2f;
 
-pub struct Model<'a, 'b> {
-    name: &'a str,
-    model: &'b sfml::graphics::Drawable,
+pub struct Model<'a> {
+    name: String,
+    model: Box<&'a mut sfml::graphics::Drawable>,
 }
 
-impl<'a, 'b> fmt::Debug for Model<'a, 'b> {
+impl<'a> fmt::Debug for Model<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Name: {0}\nModel: SFML Drawable", self.name)
     }
 }
 
-impl<'a, 'b> fmt::Display for Model<'a, 'b> {
+impl<'a> fmt::Display for Model<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Name: {0}\nModel: SFML Drawable", self.name)
     }
 }
 
-impl<'a, 'b> Model<'a, 'b> {
-    const empty_rec: sfml::graphics::RectangleShape<'static> = sfml::graphics::RectangleShape::with_size(Vector2f::new((0.0, 0.0)));
-    const empty_model: Model<'static, 'static> = Model{name: "empty_model".to_string(), model: Model::empty_rec};
-
-    fn new() -> &'static Model<'static, 'static> {
-        &Model::empty_model
-    }
-    
-    fn new_with(name: &'a str, model: &'b sfml::graphics::Drawable) -> Model<'a, 'b> {
+impl<'a> Model<'a> {
+    pub fn new_with(name: &str, model: &'a mut sfml::graphics::Drawable) -> Model<'a> {
         Model {
-            name: name,
-            model: model
+            name: name.to_string(),
+            model: Box::new(model),
         }
     }
 
-    fn get_name(&self) -> &'a str {
-        self.name
+    pub fn get_name(&self) -> &str {
+        &self.name
     }
 
-    fn set_name(&mut self, name: &'a str) {
-        self.name = name
+    pub fn set_name(&mut self, name: &str) {
+        self.name = name.to_string()
     }
 
-    fn get_model(&self) -> &'b sfml::graphics::Drawable {
-        self.model
-    }
-
-    fn set_model(&mut self, model: &'b sfml::graphics::Drawable) {
-        self.model = model
+    pub fn set_model(&mut self, model: &'a mut sfml::graphics::Drawable) {
+        self.model = Box::new(model)
     }
 }
