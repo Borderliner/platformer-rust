@@ -30,7 +30,10 @@ fn main() {
     let config_data_path = &config.json["data_folder"].as_str();
 
     let script_path_one = config_scripts_path[0].as_str().unwrap();
+
     println!("Scripts directory: {}", script_path_one);
+    println!("Data directory: {}", config_data_path.unwrap());
+
     let lua_paths: Vec<String> = read_directory(&format!("game/{}", script_path_one));
     let mut lua = Lua::new();
     let lua_ptr = lua.get();
@@ -42,7 +45,7 @@ fn main() {
     }
 
     let mushroom_tex_path = format!("game/{}{}", config_data_path.unwrap(), "assets/sprites/mushroom.png");
-    println!("Data directory: {}", mushroom_tex_path);
+    
     let mut mushroom_tex = sfml::graphics::Texture::from_file(&mushroom_tex_path).unwrap();
     let mut mushroom_spr = sfml::graphics::Sprite::with_texture(&mut mushroom_tex);
     let mushroom_mdl = Scene::make_model("mushroom", &mut mushroom_spr);
