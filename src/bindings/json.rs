@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::prelude::*;
 
 pub struct Json {
-    file_path: String,
+    pub file_path: String,
     file_handle: File,
     content: String,
     pub json: serde_json::Value,
