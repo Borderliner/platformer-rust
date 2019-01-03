@@ -5,7 +5,7 @@ use std::fmt;
 
 pub struct Model<'a> {
     pub name: String,
-    pub model: Box<&'a mut sfml::graphics::Drawable>,
+    pub model: Box<sfml::graphics::Sprite<'a>>,
     pub hidden: bool
 }
 
@@ -22,7 +22,8 @@ impl<'a> fmt::Display for Model<'a> {
 }
 
 impl<'a> Model<'a> {
-    pub fn new_with(name: &str, model: &'a mut sfml::graphics::Drawable) -> Model<'a> {
+    
+    pub fn new_sprite(name: &str, model: sfml::graphics::Sprite<'a>) -> Model<'a> {
         Model {
             name: name.to_string(),
             model: Box::new(model),
@@ -38,7 +39,7 @@ impl<'a> Model<'a> {
         self.name = name.to_string()
     }
 
-    pub fn set_model(&mut self, model: &'a mut sfml::graphics::Drawable) {
+    pub fn set_model(&mut self, model: sfml::graphics::Sprite<'a>) {
         self.model = Box::new(model)
     }
 

@@ -108,6 +108,6 @@ impl Window {
     }
 
     pub fn draw(&mut self, model: &mut Box<containers::Model>) {
-        self.m_window_handle.draw(*model.model)
+        self.m_window_handle.draw(&*model.model)
     }
 }

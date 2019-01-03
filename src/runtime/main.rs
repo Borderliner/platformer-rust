@@ -2,7 +2,6 @@ extern crate platformer;
 
 use std::ffi::OsStr;
 
-use platformer::engine::Scene;
 use platformer::bindings::Json;
 use platformer::bindings::Lua;
 
@@ -44,13 +43,25 @@ fn main() {
         function.call::<_, ()>(()).unwrap();
     }
 
-    let mushroom_tex_path = format!("game/{}{}", config_data_path.unwrap(), "assets/sprites/mushroom.png");
-    
-    let mut mushroom_tex = sfml::graphics::Texture::from_file(&mushroom_tex_path).unwrap();
-    let mut mushroom_spr = sfml::graphics::Sprite::with_texture(&mut mushroom_tex);
-    let mushroom_mdl = Scene::make_model("mushroom", &mut mushroom_spr);
+    // Load backgrounds
+    let mut backgrounds_tex: Vec<sfml::graphics::Texture> = Vec::new();
+    let mut tex_ptr: *mut sfml::graphics::Texture;
 
-    scene.add_model(mushroom_mdl);
+    let mut model: platformer::containers::Model;
+
+    for i in 0..50 {
+        backgrounds_tex.push(sfml::graphics::Texture::from_file(&format!("game/{}{}{}.jpg", config_data_path.unwrap(), "assets/backgrounds/", (i + 1).to_string())).unwrap());
+        tex_ptr = backgrounds_tex.as_mut_ptr();
+        unsafe {
+            model = platformer::containers::Model {
+                name: format!("{}{}", i, ".jpg"),
+                model: Box::new(sfml::graphics::Sprite::with_texture(&*tex_ptr.add(i))),
+                hidden: false
+            };
+        }
+
+        scene.add_model(model);
+    }
 
     println!("Running Platformer Rust...");
     scene.render();

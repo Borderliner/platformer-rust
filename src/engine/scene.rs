@@ -73,8 +73,8 @@ impl<'a, 'b> Scene<'a, 'b> {
         None
     }
 
-    pub fn make_model(name: &str, drawable: &'a mut sfml::graphics::Drawable) -> Model<'a> {
-        Model::new_with(name, drawable)
+    pub fn make_sprite(name: &str, sprite: sfml::graphics::Sprite<'a>) -> Model<'a> {
+        Model::new_sprite(name, sprite)
     }
 
     fn get_elapsed_time(&self) -> sfml::system::Time {
