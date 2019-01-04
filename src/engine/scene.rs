@@ -13,6 +13,10 @@ pub struct Scene<'a, 'b> {
     frame_time: f32
 }
 
+impl<'a, 'b> Drop for Scene<'a, 'b> { 
+    fn drop(&mut self) {}
+}
+
 impl<'a, 'b> Scene<'a, 'b> {
     pub fn new(window: &'b mut Window) -> Scene<'a, 'b> {
         Scene {
@@ -25,7 +29,8 @@ impl<'a, 'b> Scene<'a, 'b> {
     }
 
     pub fn render(&mut self) {
-        while self.window.is_open() {
+        let clock = sfml::system::Clock::start();
+        while self.window.is_open() && clock.elapsed_time().as_seconds() < 5.0 {
             self.pre_frame();
             self.on_frame();
             self.post_frame();
