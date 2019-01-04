@@ -63,12 +63,12 @@ fn main() {
             scene.add_model(model);
         }
 
-        println!("Running Platformer Rust...");
+        println!("Running Platformer Rust for 10 seconds...");
         scene.render();
 
         println!("Cleaning resources...");
     }
     
-    println!("Cleaned all the assets.");
-    std::thread::sleep(std::time::Duration::from_secs(50));
+    println!("Cleaned all the assets. Waiting for 30 seconds...");
+    std::thread::sleep(std::time::Duration::from_secs(30));
 }

@@ -30,7 +30,7 @@ impl<'a, 'b> Scene<'a, 'b> {
 
     pub fn render(&mut self) {
         let clock = sfml::system::Clock::start();
-        while self.window.is_open() && clock.elapsed_time().as_seconds() < 5.0 {
+        while self.window.is_open() && clock.elapsed_time().as_seconds() < 10.0 {
             self.pre_frame();
             self.on_frame();
             self.post_frame();
